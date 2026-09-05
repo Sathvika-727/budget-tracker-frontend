@@ -31,8 +31,14 @@ export default function Categories() {
 
   async function handleDelete(id) {
     if (!confirm('Delete this category?')) return;
-    await deleteCategory(id);
-    load();
+    setError('');
+    try {
+      await deleteCategory(id);
+      load();
+    } catch (err) {
+      const message = err.response?.data?.detail || 'Failed to delete category.';
+      setError(message);
+    }
   }
 
   return (
